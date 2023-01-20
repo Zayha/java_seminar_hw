@@ -112,7 +112,10 @@ public class hw1 {
     }
 
     public static void main(String[] args) {
-        int n = 5;
+        Scanner cs = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Введите число n: ");
+        int n = cs.nextInt();
 
         System.out.printf("Треугольное число порядка %d = %d\n", n, triangularNumber(n));
         System.out.printf("Факториал %d! = %d\n", n, factorialn(n));
@@ -123,7 +126,7 @@ public class hw1 {
         System.out.print(primeNumbers(n));
 
 //        Калькулятор
-        Scanner cs = new Scanner(System.in);
+        System.out.print("\n*** КАЛЬКУЛЯТОР *** ");
         System.out.print("\nВведите число: ");
         double n1 = cs.nextDouble();
         System.out.print("\nУкажите действие + - / *: ");
@@ -133,8 +136,9 @@ public class hw1 {
         System.out.printf("%.2f %s %.2f = %.2f", n1, action, n2, calculator(n1, n2, action));
 
 //        Уравнение
+        System.out.print("\n *** РАВЕНСТВО ***");
         System.out.print("\nВведите уравнение вида ?5 + ? = 15 (вариант( Х - число): X?, ?X, ??, ?, XX): ");
-        String equation = cs.nextLine();
+        String equation = sc.nextLine();
         System.out.println(solutionOfEquation(equation));
 
     }
