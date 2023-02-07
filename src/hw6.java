@@ -160,16 +160,17 @@ public class hw6 {
 
 
     public static void switcher(Map<Integer, Notebook> db) {
+        System.out.println("Hello friend =) ");
         HashMap<String, String> fil = new HashMap<>();
         fil.put("RAM", "0");
         fil.put("HDD", "0");
         fil.put("COLOR", null);
         fil.put("OS", null);
-        String colorFilter, osFilter;
         Scanner sc = new Scanner(System.in);
 
         boolean flag = true;
         while (flag) {
+            boolean f1;
             System.out.println("Категории: ");
             String[] menu = new String[]{"ОЗУ", "Объем ЖД", "Операционная система", "Цвет", "Проверить все фильтры", "Закончить"};
             for (int i = 1; i <= menu.length; i++) {
@@ -178,7 +179,7 @@ public class hw6 {
             System.out.print("\nУкажите номер критерия фильтрации: ");
             int sw = sc.nextInt();
             switch (sw) {
-                case (1):
+                case (1) -> {
                     System.out.print("Укажите минимальное значени оперативной памяти в гб: ");
                     if (sc.hasNextInt()) {
                         String swRam = sc.next();
@@ -187,8 +188,8 @@ public class hw6 {
                         String temp = sc.next();
                         System.out.printf("\nЗначение %s указано некорректно!\n", temp);
                     }
-                    break;
-                case (2):
+                }
+                case (2) -> {
                     System.out.print("Укажите минимальное значени объема накопителя HDD/SSD в гб: ");
                     if (sc.hasNextInt()) {
                         String swHdd = sc.next();
@@ -197,15 +198,15 @@ public class hw6 {
                         String temp = sc.next();
                         System.out.printf("\nЗначение %s указано некорректно!\n", temp);
                     }
-                    break;
-                case (3):
+                }
+                case (3) -> {
                     LinkedHashSet<String> os = (LinkedHashSet<String>) getData(db, "osUnique");
                     System.out.println("Выберите операционную систему из доступных вариантов: ");
                     System.out.println(os);
 //                    System.out.println(os.getClass().getName());
                     System.out.print("Введите наименование операционной системы: ");
                     String ossw = sc.next();
-                    boolean f1 = false;
+                    f1 = false;
                     for (String n :
                             os) {
                         if (Objects.equals(ossw, n)) {
@@ -217,8 +218,8 @@ public class hw6 {
                     if (!f1) {
                         System.out.println("\nЗначение фильтра указано некорректно и не будет примененно!");
                     }
-                    break;
-                case (4):
+                }
+                case (4) -> {
                     System.out.print("Выберите цвет: ");
                     LinkedHashSet<String> cl = (LinkedHashSet<String>) getData(db, "colorUnique");
                     System.out.println("Выберите операционную систему из доступных вариантов: ");
@@ -238,8 +239,8 @@ public class hw6 {
                     if (!f1) {
                         System.out.println("\nЗначение фильтра указано некорректно и не будет примененно!");
                     }
-                    break;
-                case (5):
+                }
+                case (5) -> {
                     for (Map.Entry<String, String> entry :
                             fil.entrySet()) {
                         System.out.print("\n" + entry.getKey() + " - " + entry.getValue());
@@ -248,10 +249,8 @@ public class hw6 {
                         }
                     }
                     System.out.println("\n");
-                    break;
-                case (6):
-                    flag = false;
-                    break;
+                }
+                case (6) -> flag = false;
             }
         }
 
