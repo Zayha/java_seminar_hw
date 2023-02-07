@@ -25,7 +25,6 @@ public class hw6 {
         db.put(nb10.getId(), nb10);
         System.out.printf("Всего в базе %d ноутбуков\n", Notebook.Stat.counter);
         switcher(db);
-
     }
 
     public static Object getData(Map<Integer, Notebook> db, String param) {
@@ -44,8 +43,8 @@ public class hw6 {
         Set<String> colorU = new LinkedHashSet<>(color.values());
         Set<String> osU = new LinkedHashSet<>(os.values());
 
-        ram = sortII((LinkedHashMap<Integer, Integer>) ram);
-        hdd = sortII((LinkedHashMap<Integer, Integer>) hdd);
+//        ram = sortII((LinkedHashMap<Integer, Integer>) ram);
+//        hdd = sortII((LinkedHashMap<Integer, Integer>) hdd);
 
         if (Objects.equals(param, "ram")) return ram;
         if (Objects.equals(param, "hdd")) return hdd;
@@ -136,27 +135,27 @@ public class hw6 {
         return result;
     }
 
-
-    public static Map<Integer, Integer> sortII(LinkedHashMap<Integer, Integer> data) {
-        Map<Integer, Integer> res = new LinkedHashMap<>();
-
-        do {
-            int max = 0;
-            int maxKey = 0;
-            for (Map.Entry<Integer, Integer> entry :
-                    data.entrySet()) {
-                int key = entry.getKey();
-                int value = entry.getValue();
-                if (value > max) {
-                    max = value;
-                    maxKey = key;
-                }
-            }
-            res.put(maxKey, max);
-            data.remove(maxKey);
-        } while (!data.isEmpty());
-        return res;
-    }
+// Хорошо но не пригодилось =)
+//    public static Map<Integer, Integer> sortII(LinkedHashMap<Integer, Integer> data) {
+//        Map<Integer, Integer> res = new LinkedHashMap<>();
+//
+//        do {
+//            int max = 0;
+//            int maxKey = 0;
+//            for (Map.Entry<Integer, Integer> entry :
+//                    data.entrySet()) {
+//                int key = entry.getKey();
+//                int value = entry.getValue();
+//                if (value > max) {
+//                    max = value;
+//                    maxKey = key;
+//                }
+//            }
+//            res.put(maxKey, max);
+//            data.remove(maxKey);
+//        } while (!data.isEmpty());
+//        return res;
+//    }
 
 
     public static void switcher(Map<Integer, Notebook> db) {
