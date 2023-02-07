@@ -23,7 +23,7 @@ public class hw6 {
         db.put(nb8.getId(), nb8);
         db.put(nb9.getId(), nb9);
         db.put(nb10.getId(), nb10);
-        System.out.println(Notebook.Stat.counter);
+        System.out.printf("Всего в базе %d ноутбуков\n", Notebook.Stat.counter);
         switcher(db);
 
 
@@ -84,14 +84,18 @@ public class hw6 {
 
 
     public static void switcher(Map<Integer, Notebook> db) {
-        HashMap<String, Integer> fil = new HashMap<>();
-        fil.put("OZU", 0);
-        fil.put("HDD", 0);
+        HashMap<String, String> fil = new HashMap<>();
+        fil.put("RAM", "0");
+        fil.put("HDD", "0");
+        fil.put("COLOR", null);
+        fil.put("OS", null);
         String colorFilter, osFilter;
         Scanner sc = new Scanner(System.in);
-        String[] menu = new String[]{"ОЗУ", "Объем ЖД", "Операционная система", "Цвет", "Закончить"};
+
         boolean flag = true;
-        while(flag){
+        while (flag) {
+            System.out.println("Категории: ");
+            String[] menu = new String[]{"ОЗУ", "Объем ЖД", "Операционная система", "Цвет", "Проверить все фильтры", "Закончить"};
             for (int i = 1; i <= menu.length; i++) {
                 System.out.printf("[%d] - %s\n", i, menu[i - 1]);
             }
@@ -99,10 +103,24 @@ public class hw6 {
             int sw = sc.nextInt();
             switch (sw) {
                 case (1):
-                    System.out.print("Укажите минимальное значени оперативной памяти: ");
+                    System.out.print("Укажите минимальное значени оперативной памяти в гб: ");
+                    if (sc.hasNextInt()) {
+                        String swRam = sc.next();
+                        fil.put("RAM", swRam);
+                    } else {
+                        String temp = sc.next();
+                        System.out.printf("\nЗначение %s указано некорректно!\n", temp);
+                    }
                     break;
                 case (2):
-                    System.out.print("Укажите минимальное значени объема накопителя HDD/SSD: ");
+                    System.out.print("Укажите минимальное значени объема накопителя HDD/SSD в гб: ");
+                    if (sc.hasNextInt()) {
+                        String swHdd = sc.next();
+                        fil.put("HDD", swHdd);
+                    } else {
+                        String temp = sc.next();
+                        System.out.printf("\nЗначение %s указано некорректно!\n", temp);
+                    }
                     break;
                 case (3):
                     LinkedHashSet<String> os = (LinkedHashSet<String>) getData(db, "osUnique");
@@ -114,37 +132,53 @@ public class hw6 {
                     boolean f1 = false;
                     for (String n :
                             os) {
-                        if(Objects.equals(ossw, n)) {
-                            osFilter = n;
+                        if (Objects.equals(ossw, n)) {
                             f1 = true;
+                            fil.replace("OS", n);
                             break;
                         }
                     }
-                    if(!f1){
+                    if (!f1) {
                         System.out.println("\nЗначение фильтра указано некорректно и не будет примененно!");
                     }
                     break;
                 case (4):
                     System.out.print("Выберите цвет: ");
+                    LinkedHashSet<String> cl = (LinkedHashSet<String>) getData(db, "colorUnique");
+                    System.out.println("Выберите операционную систему из доступных вариантов: ");
+                    System.out.println(cl);
+//                    System.out.println(os.getClass().getName());
+                    System.out.print("Введите наименование цвета: ");
+                    String clsw = sc.next();
+                    f1 = false;
+                    for (String n :
+                            cl) {
+                        if (Objects.equals(clsw, n)) {
+                            f1 = true;
+                            fil.replace("COLOR", n);
+                            break;
+                        }
+                    }
+                    if (!f1) {
+                        System.out.println("\nЗначение фильтра указано некорректно и не будет примененно!");
+                    }
                     break;
                 case (5):
+                    for (Map.Entry<String, String> entry :
+                            fil.entrySet()) {
+                        System.out.print("\n" + entry.getKey() + " - " + entry.getValue());
+                        if (Objects.equals(entry.getKey(), "RAM") || Objects.equals(entry.getKey(), "HDD")) {
+                            System.out.print(" гб. минимум");
+                        }
+                    }
+                    System.out.println("\n");
+                    break;
+                case (6):
                     flag = false;
                     break;
             }
         }
+        System.out.println(fil);
 
-
-//        return 1;
     }
-
-
-//    public static HashMap<> getData(int sw) {
-//        HashMap<Integer, String> n = new HashMap<>();
-//        n.put(1, "ram");
-//        n.put(2, "storageCapacity");
-//        n.put(3, "oS");
-//        n.put(4, "color");
-//
-//
-//    }
 }
