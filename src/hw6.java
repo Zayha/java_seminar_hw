@@ -26,7 +26,6 @@ public class hw6 {
         System.out.printf("Всего в базе %d ноутбуков\n", Notebook.Stat.counter);
         switcher(db);
 
-
     }
 
     public static Object getData(Map<Integer, Notebook> db, String param) {
@@ -58,6 +57,83 @@ public class hw6 {
             return "";
         }
 //    return Objects;
+    }
+
+    public static List<Integer> checkID(Map<Integer, Notebook> db, String hddMin, String ramMin, String setColor, String setOs){
+        List<Integer> result = new ArrayList<>();
+        //сгенерировать ошибку если результатов нет
+        LinkedHashMap<Integer, Integer> ram = (LinkedHashMap<Integer, Integer>) getData(db, "ram");
+        LinkedHashMap<Integer, Integer> hdd = (LinkedHashMap<Integer, Integer>) getData(db, "hdd");
+        LinkedHashMap<Integer, String> color = (LinkedHashMap<Integer, String>) getData(db, "color");
+        LinkedHashMap<Integer, String> os = (LinkedHashMap<Integer, String>) getData(db, "os");
+        int minHdd = Integer.parseInt(hddMin);
+        int minRam = Integer.parseInt(ramMin);
+        List<Integer> colorId = new ArrayList<>();
+        List<Integer> osId = new ArrayList<>();
+        List<Integer> ramId = new ArrayList<>();
+        List<Integer> hddId = new ArrayList<>();
+
+
+        //Выбираем ID с цветом
+        for (Map.Entry<Integer, String> entry :
+                color.entrySet()){
+            if(setColor==null) {
+                colorId.add(entry.getKey());
+            } else {
+                if(Objects.equals(entry.getValue(), setColor)){
+                    colorId.add(entry.getKey());
+                }
+            }
+        }
+        //Выбираем ID с ОС
+        for (Map.Entry<Integer, String> entry :
+                os.entrySet()){
+            if(setOs==null) {
+                osId.add(entry.getKey());
+            } else {
+                if(Objects.equals(entry.getValue(), setOs)){
+                    osId.add(entry.getKey());
+                }
+            }
+        }
+        //Выбираем ID с оперативкой
+        for (Map.Entry<Integer, Integer> entry :
+                ram.entrySet()){
+            if(entry.getValue() >= minRam){
+                ramId.add(entry.getKey());
+            }
+        }
+        //Выбираем ID с объемом накопителя
+        for (Map.Entry<Integer, Integer> entry :
+                hdd.entrySet()){
+            if(entry.getValue() >= minHdd){
+                hddId.add(entry.getKey());
+            }
+        }
+
+        // Тут надо сгенерить ошибку
+        if (colorId.isEmpty() || osId.isEmpty() || hddId.isEmpty() || ramId.isEmpty()){
+            return result;
+        } else {
+
+            //Ищем пересечения
+            for (int i :
+                    colorId) {
+                for (int j :
+                        osId) {
+                    for (int k :
+                            ramId) {
+                        for (int m :
+                                hddId) {
+                            if (i == j && j == k && k == m) {
+                                result.add(i);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
     }
 
 
@@ -178,7 +254,16 @@ public class hw6 {
                     break;
             }
         }
-        System.out.println(fil);
 
+        List<Integer> intersection = checkID(db, fil.get("HDD"), fil.get("RAM"), fil.get("COLOR"), fil.get("OS"));
+
+        if(intersection.isEmpty()) {
+            System.out.println("К сожалению нет товаров подходящих под ваши критерии поиска");
+        } else {
+            for (Integer nId :
+                    intersection) {
+                db.get(nId).showNote();
+            }
+        }
     }
 }
