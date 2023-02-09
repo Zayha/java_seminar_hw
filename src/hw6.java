@@ -60,7 +60,6 @@ public class hw6 {
 
     public static List<Integer> checkID(Map<Integer, Notebook> db, String hddMin, String ramMin, String setColor, String setOs){
         List<Integer> result = new ArrayList<>();
-        //сгенерировать ошибку если результатов нет
         LinkedHashMap<Integer, Integer> ram = (LinkedHashMap<Integer, Integer>) getData(db, "ram");
         LinkedHashMap<Integer, Integer> hdd = (LinkedHashMap<Integer, Integer>) getData(db, "hdd");
         LinkedHashMap<Integer, String> color = (LinkedHashMap<Integer, String>) getData(db, "color");
@@ -110,7 +109,7 @@ public class hw6 {
             }
         }
 
-        // Тут надо сгенерить ошибку
+
         if (colorId.isEmpty() || osId.isEmpty() || hddId.isEmpty() || ramId.isEmpty()){
             return result;
         } else {
